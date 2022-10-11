@@ -1,5 +1,7 @@
 
 import { Model } from 'objection';
+import { omit } from 'lodash';
+
 import { getConnection } from '../database';
 Model.knex(getConnection())
 
@@ -16,6 +18,13 @@ export class UserModel extends Model {
   }
 
   static async createUser(userDetails: Partial<User>) {
-    return this.query().insert(userDetails)
+    const emailExists =  await this.query()
+    .findOne({email: userDetails.email})
+
+    if(emailExists) {
+        return Promise.reject({ email: 'Email already exists' });
+    }
+    const user = await this.query().insert(userDetails);
+    return omit(user.toJSON(), ['password']);
   }
 }
