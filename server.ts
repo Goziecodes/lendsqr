@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from 'express';
 
 const app: Express = express();
 
-const authRoutes = require('./routes/auth.route');
+import authRoutes from './routes/auth.route';
 
 
 
