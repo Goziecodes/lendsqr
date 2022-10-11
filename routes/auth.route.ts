@@ -2,7 +2,7 @@
 import { Router } from 'express';
 
 import {Validator} from '../middlewares/validator.middleware';
-import SignupController from '../controllers/auth.controller';
+import authController from '../controllers/auth.controller';
 import $ from 'express-async-handler';
 
 const router = Router();
@@ -11,8 +11,8 @@ const router = Router();
 
 router.post(
 	'/signup', 
-	$(Validator(SignupController.registerSchema)), 
-	$(SignupController.register)
+	$(Validator(authController.registerSchema)), 
+	$(authController.register)
 );
 
 
