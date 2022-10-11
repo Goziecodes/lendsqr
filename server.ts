@@ -1,6 +1,6 @@
-const express = require('express');
+import express, { Express, Request, Response } from 'express';
 
-const app = express();
+const app: Express = express();
 
 const authRoutes = require('./routes/auth.route');
 
@@ -44,4 +44,4 @@ app.use(authRoutes);
 app.response = Object.create(customExpress);
 
 
-module.exports = app;
+export default app
