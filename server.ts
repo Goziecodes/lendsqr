@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express';
+import authMiddleware from './middlewares/auth.middleware';
 import errorMiddleware from './middlewares/error.middleware';
 
 const app: Express = express();
@@ -42,7 +43,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(authRoutes);
-app.use('/transactions', transactionRoutes);
+app.use('/transactions', authMiddleware, transactionRoutes);
 app.use(errorMiddleware);
 
 app.response = Object.create(customExpress);
