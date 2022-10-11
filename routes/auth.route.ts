@@ -2,7 +2,7 @@
 import { Router } from 'express';
 
 import {Validator} from '../middlewares/validator.middleware';
-import SignupController from '../controllers/signup.controller';
+import SignupController from '../controllers/auth.controller';
 import $ from 'express-async-handler';
 
 const router = Router();
