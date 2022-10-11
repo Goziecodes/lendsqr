@@ -1,15 +1,15 @@
-import type { Knex } from "knex";
+import dotenv from 'dotenv';
+dotenv.config();
 
-// Update with your config settings.
-
-const config: { [key: string]: Knex.Config } = {
+export default {
 
   development: {
     client: "mysql2",
     connection: {
-      database: "wallet",
-      user: "root",
-      password: "rootuser1"
+      host: process.env.DB_HOST,
+      database: process.env.DATABASE,
+      user: process.env.DBUSER,
+      password: process.env.PASSWORD
     },
     pool: {
       min: 2,
@@ -23,9 +23,10 @@ const config: { [key: string]: Knex.Config } = {
   production: {
     client: "mysql2",
     connection: {
-      database: "wallet",
-      user: "root",
-      password: "rootuser1"
+      host: process.env.DB_HOST,
+      database: process.env.DATABASE,
+      user: process.env.USER,
+      password: process.env.PASSWORD
     },
     pool: {
       min: 2,
@@ -34,8 +35,7 @@ const config: { [key: string]: Knex.Config } = {
     migrations: {
       tableName: "knex_migrations"
     }
-  }
+  },
 
 };
 
-module.exports = config;
