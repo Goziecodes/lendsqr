@@ -2,6 +2,7 @@ import joi from 'joi';
 import { Request, Response, NextFunction} from 'express'
 import { IExpressResponse } from '../interfaces';
 
+
 /**
  * reducer callback function to turn joi error message into a simple object
  * it takes the label or key property and makes it a key in the accumulatedObject
@@ -19,7 +20,7 @@ const reducer = (accumulatedObject: any, currentError: { context: { label: any; 
  * @param {JoiSchema} schema
  * @returns middleware
  */
-export const Validator = (schema: joi.Schema) => async (req: Request, res: IExpressResponse | Response, next: NextFunction) => {
+export const Validator = (schema: joi.Schema) => async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const value = await joi.attempt(req.body || {}, schema, {
 			abortEarly: false,
