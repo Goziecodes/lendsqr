@@ -1,7 +1,10 @@
+import { NextFunction, Request, Response } from 'express';
 import joi from 'joi';
-import {User} from '../models/user.model';
+import { IExpressResponse } from '../interfaces';
+import { User } from '../models/user.model';
+import authService from '../services/auth.service'
 
-export default class SignupController {
+export class AuthController {
 
 	static get registerSchema() {
 		return joi.object().keys({
@@ -12,7 +15,8 @@ export default class SignupController {
 	}
 
 	// eslint-disable-next-line no-unused-vars
-	static async register(req: any, res: any, next: any) {
-		res.status(201).data( 'response' );
+	static async register(req: Request, res: IExpressResponse | Response, next: NextFunction) {
+		const user = await authService.createUser(req.body as Partial<User>);
+		(res.status(201) as IExpressResponse).data(user);
 	}
 };

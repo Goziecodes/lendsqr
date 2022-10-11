@@ -2,7 +2,7 @@
 import { Router } from 'express';
 
 import {Validator} from '../middlewares/validator.middleware';
-import authController from '../controllers/auth.controller';
+import { AuthController } from '../controllers/auth.controller';
 import $ from 'express-async-handler';
 
 const router = Router();
@@ -11,10 +11,10 @@ const router = Router();
 
 router.post(
 	'/signup', 
-	$(Validator(authController.registerSchema)), 
-	$(authController.register)
+	$(Validator(AuthController.registerSchema)), 
+	$(AuthController.register)
 );
 
 
 
-export = router;
+export default router;
