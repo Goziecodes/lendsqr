@@ -3,6 +3,7 @@ import { Model } from 'objection';
 import { omit } from 'lodash';
 
 import { getConnection } from '../database';
+import hashPassword from '../utils/hash-password';
 Model.knex(getConnection())
 
 export interface User {
@@ -24,7 +25,11 @@ export class UserModel extends Model {
     if(emailExists) {
         return Promise.reject({ email: 'Email already exists' });
     }
-    const user = await this.query().insert(userDetails);
+    
+    const user = await this.query().insert({
+        ...userDetails,
+        password: hashPassword(userDetails.password as string)
+    });
     return omit(user.toJSON(), ['password']);
   }
 }
