@@ -14,6 +14,11 @@ router.post(
 	$(Validator(AuthController.registerSchema)), 
 	$(AuthController.register)
 );
+router.post(
+	'/login', 
+	$(Validator(AuthController.loginSchema)), 
+	$(AuthController.login)
+);
 
 
 
