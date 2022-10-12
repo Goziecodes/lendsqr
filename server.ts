@@ -6,6 +6,7 @@ const app: Express = express();
 
 import authRoutes from './routes/auth.route';
 import transactionRoutes from './routes/transaction.route';
+import userRoutes from './routes/user.route';
 
 
 
@@ -44,6 +45,7 @@ app.use(express.urlencoded({
 
 app.use(authRoutes);
 app.use('/transactions', authMiddleware, transactionRoutes);
+app.use('/users', authMiddleware, userRoutes);
 app.use(errorMiddleware);
 
 app.response = Object.create(customExpress);

@@ -60,4 +60,11 @@ export class UserModel extends Model implements User {
             email: foundUser.email
         })}
   }
+
+  static async getUsers( offset: number, limit: number) {
+    return await this.query()
+    .select('id', 'fullname')
+    .offset(offset || 0)
+    .limit(limit || 20)
+  }
 }
