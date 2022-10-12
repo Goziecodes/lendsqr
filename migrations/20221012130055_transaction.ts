@@ -9,17 +9,8 @@ export async function up(knex: Knex): Promise<void> {
         table.integer('reciever');
         table.enum('trans_type', ['DEBIT', 'CREDIT']);
         table.float('amount');
-        table.timestamp('created_at');
-        table.timestamp('updated_at');
-    })
-    .createTable('lendsqr_users', function (table){
-        table.increments('id');
-        table.string('fullname');
-        table.string('email');
-        table.string('password');
-        table.float('balance');
-        table.timestamp('created_at');
-        table.timestamp('updated_at');
+        table.enum('trans_category', ["DEPOSIT", "WITHDRAWAL", "TRANSFER"]);
+        table.timestamps(true, true);
     })
 }
 
@@ -27,6 +18,5 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
     return knex.schema
       .dropTable("lendsqr_transactions")
-      .dropTable("lendsqr_users");
 }
 
