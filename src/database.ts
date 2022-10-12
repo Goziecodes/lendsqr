@@ -1,4 +1,4 @@
-import databaseConfig from './knexfile'
+import databaseConfig from '../knexfile'
 import Knex, { Knex as KnexType} from 'knex';
 
 // database singleton

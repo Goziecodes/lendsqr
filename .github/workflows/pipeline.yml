@@ -7,25 +7,24 @@ on:
     branches: [ master ]
 
 jobs:
-  # coverage:
-  #   runs-on: ubuntu-latest
+  coverage:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v2
 
-  #   - name: Install Nodejs
-  #     run: |
-  #       sudo apt-get update c
-  #       sudo apt-get -yq install curl gnupg
-  #       curl -sL https://deb.nodesource.com/setup_16.x  | sudo bash
-  #       sudo apt-get -yq install nodejs
-  #   # install dependencies
-  #   - name: Install dependencies
-  #     run: npm ci
+    - name: Install Nodejs
+      run: |
+        sudo apt-get update c
+        sudo apt-get -yq install curl gnupg
+        curl -sL https://deb.nodesource.com/setup_16.x  | sudo bash
+        sudo apt-get -yq install nodejs
+    - name: Install dependencies
+      run: npm ci
 
-  #   - name: Test
-  #     if: false
-  #     run: npm run coverage
+    - name: Test
+      if: false
+      run: npm run coverage
 
 
   setup:
@@ -38,15 +37,6 @@ jobs:
         run: npm ci
       - name: Run migrations
         run: npm run migration:run
-      - name: Clean up coverage
-        run:  rm -rf coverage
-      - name: Remove Test files
-        run: |
-          find . -type f -name '*.test.js' -delete
-          rm -rf __mocks__
-          rm -rf __tests__
-          rm -rf jest.config.json
-          rm -rf jest-e2e.config.json
 
 
 
@@ -55,8 +45,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: |
+        npm ci
+        npm run build
+        cp package*.json ./dist/package*.json
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "chigozie-lendsqr-be-test"
           heroku_email: ${{secrets.DEPLOY_EMAIL}}
+          appdir: dist
