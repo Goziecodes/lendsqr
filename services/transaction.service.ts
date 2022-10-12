@@ -11,8 +11,8 @@ export default class TransactionService {
         return TransactionModel.balance(user)
 	}
 	
-	static history(user: User ) {
-        return TransactionModel.history(user)
+	static history(user: User, offset: number, limit: number ) {
+        return TransactionModel.history(user, offset, limit)
 	}
 
 	static withdraw(amount: number, user: User ) {

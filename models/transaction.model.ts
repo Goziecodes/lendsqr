@@ -53,13 +53,12 @@ export class TransactionModel extends Model implements Transaction {
     return balance || {balance: 0}
   }
 
-  static async history(user: User, trx?: DBTransaction | undefined) {
-
-    const history = await this.query()
+  static history(user: User, offset: number, limit: number) {
+    return this.query()
     .where({reciever: user.id, trans_type: 'CREDIT'})
     .orWhere({sender: user.id, trans_type: 'DEBIT'})
-
-    return history
+    .offset(offset || 0)
+    .limit(limit || 20)
   }
 
 

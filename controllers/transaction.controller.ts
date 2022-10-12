@@ -35,7 +35,8 @@ export class TransactionController {
 	
     static async history(req: IExpressRequest | Request, res: IExpressResponse | Response, next: NextFunction) {
         const user = (req as IExpressRequest).user;
-		const history = await TransactionService.history(user as User);
+        const { offset, limit} = req.query as unknown as Record<string, number>
+		const history = await TransactionService.history(user as User, offset, limit );
 		(res.status(200) as IExpressResponse).data(history);
 	}
 	
