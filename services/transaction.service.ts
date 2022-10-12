@@ -7,4 +7,16 @@ export default class TransactionService {
         return TransactionModel.fundWallet(amount, user)
 	}
 
+	static balance(user: User ) {
+        return TransactionModel.balance(user)
+	}
+
+	static withdraw(amount: number, user: User ) {
+        return TransactionModel.withdraw(amount, user)
+	}
+
+	static transfer(transferDetails: Pick<Transaction, "amount" | "reciever">, user: User ) {
+        return TransactionModel.transfer(transferDetails, user)
+	}
+
 };
