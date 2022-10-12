@@ -8,14 +8,14 @@ import hashPassword from '../utils/hash-password';
 Model.knex(getConnection())
 
 export interface User {
-    readonly id: number;
+    readonly id: string;
     readonly email: string;
     readonly fullname: string;
     readonly password: string;
 }
 
 export class UserModel extends Model implements User {
-  id!: number;
+  id!: string;
   email!: string;
   fullname!: string;
   password!: string;
