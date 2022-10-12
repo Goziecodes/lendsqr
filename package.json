@@ -34,7 +34,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npx tsc --p tsconfig.build.json",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "dev": "nodemon",
     "migration:run": "knex migrate:latest",
     "test": "jest",
