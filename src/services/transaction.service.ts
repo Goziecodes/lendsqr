@@ -1,5 +1,5 @@
 import {Transaction, TransactionModel} from '../models/transaction.model';
-import {User} from '../models/user.model'
+import {User, UserModel} from '../models/user.model'
 
 
 export default class TransactionService {
@@ -15,11 +15,15 @@ export default class TransactionService {
         return TransactionModel.history(user, offset, limit)
 	}
 
-	static withdraw(amount: number, user: User ) {
+	static async withdraw(amount: number, user: User ) {
+		const userExists = await UserModel.query().findOne({id: user.id});
+		if(!userExists) return Promise.reject('User does not exist, are you trying to be mischeivous?'); 
         return TransactionModel.withdraw(amount, user)
 	}
 
-	static transfer(transferDetails: Pick<Transaction, "amount" | "reciever">, user: User ) {
+	static async transfer(transferDetails: Pick<Transaction, "amount" | "reciever">, user: User ) {
+		const userExists = await UserModel.query().findOne({id: transferDetails.reciever});
+		if(!userExists) return Promise.reject('that user is yet to join our platform, maybe send a signup link to them first?'); 
         return TransactionModel.transfer(transferDetails, user)
 	}
 
