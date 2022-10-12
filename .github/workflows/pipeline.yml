@@ -27,8 +27,9 @@ jobs:
       run: npm run test:cov
 
 
-  setup:
+  migration:
     runs-on: ubuntu-latest
+    needs: coverage
     steps:
       - uses: actions/checkout@v2
       - name: Add production ENV variables for migration
@@ -46,9 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-        npm ci
-        npm run build
-        cp package*.json ./dist/package*.json
+          npm ci
+          npm run build
+          cp package*.json ./dist/package*.json
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
