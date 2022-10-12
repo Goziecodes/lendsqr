@@ -42,7 +42,7 @@ jobs:
 
 
   deploy:
-    needs: setup
+    needs: migration
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
