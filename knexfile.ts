@@ -1,11 +1,5 @@
 import dotenv from 'dotenv';
 dotenv.config();
-console.log({
-  host: process.env.DB_HOST,
-  database: process.env.DATABASE,
-  user: process.env.DBUSER,
-  password: process.env.PASSWORD
-})
 export default {
 
   development: {
@@ -30,7 +24,7 @@ export default {
     connection: {
       host: process.env.DB_HOST,
       database: process.env.DATABASE,
-      user: process.env.USER,
+      user: process.env.DBUSER,
       password: process.env.PASSWORD
     },
     pool: {
