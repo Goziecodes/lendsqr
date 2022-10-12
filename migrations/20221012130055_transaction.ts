@@ -10,8 +10,9 @@ export async function up(knex: Knex): Promise<void> {
         table.enum('trans_type', ['DEBIT', 'CREDIT']);
         table.float('amount');
         table.enum('trans_category', ["DEPOSIT", "WITHDRAWAL", "TRANSFER"]);
-        table.timestamp('created_at').defaultTo(knex.fn.now());
-        table.timestamp('updated_at').defaultTo(knex.fn.now());
+        table.timestamps(true);
+        // table.timestamp('created_at').defaultTo(knex.fn.now());
+        // table.timestamp('updated_at').defaultTo(knex.fn.now());
     })
 }
 
