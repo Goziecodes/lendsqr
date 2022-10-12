@@ -10,6 +10,10 @@ export default class TransactionService {
 	static balance(user: User ) {
         return TransactionModel.balance(user)
 	}
+	
+	static history(user: User ) {
+        return TransactionModel.history(user)
+	}
 
 	static withdraw(amount: number, user: User ) {
         return TransactionModel.withdraw(amount, user)

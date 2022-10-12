@@ -33,6 +33,12 @@ export class TransactionController {
 		(res.status(200) as IExpressResponse).data(balance);
 	}
 	
+    static async history(req: IExpressRequest | Request, res: IExpressResponse | Response, next: NextFunction) {
+        const user = (req as IExpressRequest).user;
+		const history = await TransactionService.history(user as User);
+		(res.status(200) as IExpressResponse).data(history);
+	}
+	
     static async withdraw(req: IExpressRequest | Request, res: IExpressResponse | Response, next: NextFunction) {
         const user = (req as IExpressRequest).user;
 		const transaction = await TransactionService.withdraw(req.body.amount as number, user as User);

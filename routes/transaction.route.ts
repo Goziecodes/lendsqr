@@ -30,5 +30,10 @@ router.post(
 	$(TransactionController.transfer)
 );
 
+router.get(
+	'/history', 
+	$(TransactionController.history)
+);
+
 
 export default router;
