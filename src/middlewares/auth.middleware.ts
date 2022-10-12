@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IExpressRequest, IExpressResponse } from '../interfaces';
+import { IExpressRequest, IExpressResponse } from './interfaces';
 
 import {UserModel} from '../models/user.model'
 import { decode } from '../utils/jwt';

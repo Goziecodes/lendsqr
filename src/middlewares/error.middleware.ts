@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IExpressResponse } from '../interfaces';
+import { IExpressResponse } from './interfaces';
 
 // eslint-disable-next-line no-unused-vars
 export default  (err: { type: string; toString: () => string; }, req: Request, res: IExpressResponse | Response, next: NextFunction) => {

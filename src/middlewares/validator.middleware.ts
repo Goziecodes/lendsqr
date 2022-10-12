@@ -1,6 +1,6 @@
 import joi from 'joi';
 import { Request, Response, NextFunction} from 'express'
-import { IExpressResponse } from '../interfaces';
+import { IExpressResponse } from './interfaces';
 
 
 /**
