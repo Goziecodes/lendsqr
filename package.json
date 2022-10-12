@@ -25,7 +25,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "migration:run": "knex migrate:latest"
   },
   "name": "lendsqr",
   "version": "1.0.0",
