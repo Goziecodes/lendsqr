@@ -24,7 +24,7 @@ jobs:
 
     - name: Test
       if: false
-      run: npm run coverage
+      run: npm run test:cov
 
 
   setup:
