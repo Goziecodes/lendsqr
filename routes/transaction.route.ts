@@ -13,4 +13,22 @@ router.post(
 	$(TransactionController.fundWallet)
 );
 
+router.get(
+	'/balance', 
+	$(TransactionController.balance)
+);
+
+router.post(
+	'/withdraw', 
+	$(Validator(TransactionController.fundSchema)), 
+	$(TransactionController.withdraw)
+);
+
+router.post(
+	'/transfer', 
+	$(Validator(TransactionController.transferSchema)), 
+	$(TransactionController.transfer)
+);
+
+
 export default router;
