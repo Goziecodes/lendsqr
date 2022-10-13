@@ -2,10 +2,8 @@
 import { Model } from 'objection';
 import { omit } from 'lodash';
 import {encode} from '../utils/jwt'
-
-import { getConnection } from '../database';
 import hashPassword from '../utils/hash-password';
-Model.knex(getConnection())
+
 
 export interface User {
     readonly id: string;
@@ -61,10 +59,10 @@ export class UserModel extends Model implements User {
         })}
   }
 
-  static async getUsers( offset: number, limit: number) {
-    return await this.query()
-    .select('id', 'fullname')
-    .offset(offset || 0)
-    .limit(limit || 20)
+  static  getUsers( offset: number, limit: number){
+    return this.query()
+      .select('id', 'fullname')
+      .offset(offset || 0)
+      .limit(limit || 20) as unknown as  Promise<{id: string; fullname: string}[]>
   }
 }
