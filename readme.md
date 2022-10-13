@@ -1,54 +1,71 @@
-About: this project mocks a wallet app that allows users to sign up, login, see other users if authenticated, fund their wallet, withdraw, transfer to other users.
+# About
+This project mocks a wallet app that allows users to sign up, login, see other users if authenticated, fund their wallet, withdraw, transfer to other users.
 
-written in typescript and using knex as a query builder.
+Written in typescript and using KnexJS as a query builder.
 
-knex is not a full fledged orm and has limitations that makes it a tad bit difficult to be used as a full orm especially as we are using OOP, so i paired it with Objections, an orm built on knex
+KnexJS is a query builder library not a full fledged ORM, to cover for solutions ORM provide, Objection.js was built on KnexJS as an ORM and thus was used in this project. This way I get to interact with database records as objects with methods and not just plain javascript objects (POJO)
 
-this is the database design schema
-
-database Structure:
-![My Image](./images/dbschema.png)
-
-to run, run npm install, 
-install knex globally using npm install knex -g (this is recommended for easily running migrations)
-
-add your mysql connection credentials to .env
-
-run "npm run migration:run" to run migrations and create neccesary tables
-
-run "npm run dev" to start the app
-
-test the apis using this postman collection as guide:
+## Postman Documentation:
 https://documenter.getpostman.com/view/12165874/2s83zpK1Sm
 
-to deploy to live server:
+## Database Structure
+![My Image](./images/dbschema.png)
 
-the app is deployed to heroku, using a deployment pipeline, so you would need to add your credentials to git and heroku.
+## Installations
 
-the following steps are neccessary:
+### Requisite Softwares
+ - [NodeJS](https://nodejs.org/en/download/)
+ - [Git](https://git-scm.com/downloads)
+ - [MySQL](https://dev.mysql.com/downloads/mysql/)
+ - [Postman](https://www.postman.com/downloads/) (or any REST Client)
 
+### Environment setup
 
-*create a new heroku app
-
-*put the heroku app name on the heroku_app_name field of pipeline.yml 
-
-*add .env credentials to the config vars section
-
-*on github goto setting -> secrets -> actions and add the following
-
-key: "DEPLOY_EMAIL" value: 'your heroku_email'
-key: "HEROKU_API_KEY" value: 'your heroku_api_key'
-key: "ENV": value:  WTKEY=
-                    PORT=
-                    DB_HOST=
-                    DB_PORT=
-                    DBUSER=
-                    PASSWORD=
-                    DATABASE=
-
-*Note: value for ENV key is your .env configs
+``` sh
+$ git clone git@github.com:Goziecodes/lendsqr.git
+$ cd lendsqr
+$ npm install
+```
+You have to first create a database on your MySQL, based off the value you use for the `DATABASE` environment variable
 
 
+Add your mysql connection credentials to .env. Refer to the `env.example` file for values to use
+
+```sh
+$ npm run migration:run # run migrations and create neccesary tables
+
+$ npm run dev # start the app locally
+```
+
+
+## Deployment Process
+
+The app is deployed to heroku, using Github Action CI/CD and is triggered by a push to the `master` branch.
+
+Steps used to deploy:
+
+
+- create a new heroku app
+
+- put the heroku app name on the heroku_app_name field of pipeline.yml 
+
+- add .env credentials to the config vars section
+
+- on github goto setting -> secrets -> actions and add the following
+
+    * key: "DEPLOY_EMAIL" value: 'your heroku_email'
+    * key: "HEROKU_API_KEY" value: 'your heroku_api_key'
+    * key: "ENV": value:  'refer to the env.example'
+
+- Note: value for ENV key is your .env configs
+
+## Testing
+
+```sh
+$ npm run test # run unit tests
+
+$ npm run test:cov # run test coverage
+```
 
 
 
