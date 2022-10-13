@@ -1,19 +1,27 @@
 
-import { Knex } from 'knex';
 import { Model, raw, Transaction as DBTransaction } from 'objection';
 
-
-import { getConnection } from '../database';
 import { User } from './user.model';
-Model.knex(getConnection())
+
+
+export enum TransactionType {
+  CREDIT = 'CREDIT',
+  DEBIT = 'DEBIT'
+}
+
+export enum TransactionCategory {
+  TRANSFER = 'TRANSFER',
+  WITHDRAWAL = 'WITHDRAWAL',
+  DEPOSIT = 'DEPOSIT'
+}
 
 export interface Transaction {
     readonly id: number;
     readonly amount: number;
     readonly sender: string;
     readonly reciever: string;
-    readonly trans_type: string;
-    readonly trans_category: string;
+    readonly trans_type: TransactionType;
+    readonly trans_category: TransactionCategory;
     readonly created_at: string;
     readonly updated_at: string;
 }
@@ -23,8 +31,8 @@ export class TransactionModel extends Model implements Transaction {
   amount!: number;
   sender!: string;
   reciever!: string;
-  trans_type!: string;
-  trans_category!: string;
+  trans_type!: TransactionType;
+  trans_category!: TransactionCategory;
   created_at!: string;
   updated_at!: string;
   balance!: number;
@@ -36,27 +44,29 @@ export class TransactionModel extends Model implements Transaction {
   static async fundWallet(amount: number, user: User) {
     return this.query().insert({
     amount,
-    trans_type: "CREDIT",
-    trans_category: "DEPOSIT",
+    trans_type: TransactionType.CREDIT,
+    trans_category: TransactionCategory.DEPOSIT,
     reciever: user.id,
-  });
+  })
   }
 
   static async balance(user: User, trx?: DBTransaction | undefined) {
 
     const balance = await this.query(trx)
-    .select(raw("SUM(CASE WHEN trans_type = 'CREDIT' THEN amount ELSE -1 * amount END) as balance"))
-    .where({reciever: user.id, trans_type: 'CREDIT'})
-    .orWhere({sender: user.id, trans_type: 'DEBIT'})
+    .select(raw(`SUM(CASE WHEN trans_type = '${TransactionType.CREDIT}' THEN amount ELSE -1 * amount END) as balance`))
+    .where({reciever: user.id, trans_type: TransactionType.CREDIT})
+    .orWhere({sender: user.id, trans_type: TransactionType.DEBIT})
     .first()
 
-    return balance || {balance: 0}
+    if(balance?.balance) return balance
+
+    return {balance: 0}
   }
 
   static history(user: User, offset: number, limit: number) {
     return this.query()
-    .where({reciever: user.id, trans_type: 'CREDIT'})
-    .orWhere({sender: user.id, trans_type: 'DEBIT'})
+    .where({reciever: user.id, trans_type: TransactionType.CREDIT})
+    .orWhere({sender: user.id, trans_type: TransactionType.DEBIT})
     .offset(offset || 0)
     .limit(limit || 20)
   }
@@ -75,8 +85,8 @@ export class TransactionModel extends Model implements Transaction {
 
         return this.query().insert({
           amount,
-          trans_type: "DEBIT",
-          trans_category: "WITHDRAWAL",
+          trans_type: TransactionType.DEBIT,
+          trans_category: TransactionCategory.WITHDRAWAL,
           sender: user.id
         });
       })
@@ -89,9 +99,7 @@ export class TransactionModel extends Model implements Transaction {
   }
 
   static async transfer(transferDetails: Pick<Transaction, "amount" | "reciever">, user: Required<User>) {
-    try {
-      
-      const transferTransaction = await this.transaction(async trx => {
+      return this.transaction(async trx => {
         const userBalance = await this.balance(user, trx)        
 
         if (userBalance.balance < transferDetails.amount) {
@@ -100,27 +108,25 @@ export class TransactionModel extends Model implements Transaction {
 
         await this.query(trx).insert({
           amount: transferDetails.amount,
-          trans_type: "DEBIT",
-          trans_category: "TRANSFER",
+          trans_type: TransactionType.DEBIT,
+          trans_category: TransactionCategory.TRANSFER,
           reciever: transferDetails.reciever,
           sender: user.id,
         });
       
-        return this.query(trx).insert({
+        await this.query(trx).insert({
           amount: transferDetails.amount,
-          trans_type: "CREDIT",
-          trans_category: "TRANSFER",
+          trans_type: TransactionType.CREDIT,
+          trans_category: TransactionCategory.TRANSFER,
           reciever: transferDetails.reciever,
           sender: user.id,
         });
 
+        return { 
+          amount: transferDetails.amount, 
+          newBalance: userBalance.balance - transferDetails.amount 
+        }
       })
-
-      return "transfer successful"
-
-    } catch (error) {
-      return Promise.reject(error);
-    }
   }
 
 }
