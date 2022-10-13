@@ -73,6 +73,14 @@
       "!dist/*"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coverageThreshold": {
+      "global": {
+        "branches": 64,
+        "functions": 40,
+        "lines": 65,
+        "statements": 65
+      }
+    }
   }
 }
