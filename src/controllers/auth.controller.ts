@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import joi from 'joi';
-import { IExpressResponse } from '../middlewares/interfaces';
+import { IExpressResponse } from '../interfaces';
 import { User } from '../models/user.model';
 import authService from '../services/auth.service'
 

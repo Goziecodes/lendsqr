@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { User } from '../../models/user.model';
+import { User } from '../models/user.model';
 
 export interface IExpressResponse extends Response {
     error(error: any, message?: string): IExpressResponse;

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { IExpressRequest, IExpressResponse } from "./interfaces";
+import { IExpressRequest, IExpressResponse } from "../interfaces";
 
 import { UserModel } from "../models/user.model";
 import { decode } from "../utils/jwt";
@@ -15,6 +15,7 @@ export default async (
   if (!header) {
     return (res.status(401) as IExpressResponse).error(errorMessage);
   }
+
 
   if (!header.startsWith("Bearer ")) {
     return (res.status(401) as IExpressResponse).error(errorMessage);

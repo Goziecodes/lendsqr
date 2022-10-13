@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IExpressResponse } from '../middlewares/interfaces';
+import { IExpressResponse } from '../interfaces';
 import userService from '../services/user.service'
 
 export class UsersController {

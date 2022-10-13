@@ -22,10 +22,11 @@ export default class TransactionService {
 	}
 
 	static async transfer(transferDetails: Pick<Transaction, "amount" | "reciever">, user: User ) {
-		const userExists = await UserModel.query().findOne({id: transferDetails.reciever});
+		const userExists = await UserModel.query().count({id: transferDetails.reciever});
+
 		if(!userExists) return Promise.reject('that user is yet to join our platform, maybe send a signup link to them first?'); 
 
-		if(userExists.id === user.id) return Promise.reject(' sorry you cant transfer funds to yourself, wouldnt that be nice though!'); 
+		if(transferDetails.reciever === user.id) return Promise.reject(' sorry you cant transfer funds to yourself, wouldnt that be nice though!'); 
         return TransactionModel.transfer(transferDetails, user)
 	}
 
