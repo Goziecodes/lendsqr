@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IExpressRequest, IExpressResponse } from '../middlewares/interfaces';
+import { IExpressRequest, IExpressResponse } from '../interfaces';
 import { User } from '../models/user.model';
 
 export const mockResponse = () => {
