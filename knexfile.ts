@@ -8,7 +8,8 @@ export default {
       host: process.env.DB_HOST,
       database: process.env.DATABASE,
       user: process.env.DBUSER,
-      password: process.env.PASSWORD
+      password: process.env.PASSWORD,
+      port: Number(process.env.DB_PORT)
     },
     pool: {
       min: 2,
@@ -25,7 +26,8 @@ export default {
       host: process.env.DB_HOST,
       database: process.env.DATABASE,
       user: process.env.DBUSER,
-      password: process.env.PASSWORD
+      password: process.env.PASSWORD,
+      port: Number(process.env.DB_PORT)
     },
     pool: {
       min: 2,
